@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Intelligence Platform | Login & Registration</title>
+  <style>
+:root{
+  --navy:#0d2f57;
+  --blue:#1458b3;
+  --blue-dark:#0b4698;
+  --blue-soft:#eef5ff;
+  --orange:#ffa126;
+  --orange-soft:#fff1df;
+  --cream:#fbf8f1;
+  --text:#172033;
+  --muted:#667085;
+  --border:#cfd6df;
+  --danger:#c33b32;
+  --success:#16784c;
+  --shadow:0 18px 50px rgba(16,38,72,.09);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);background:#fff}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.page-shell{min-height:100vh;display:grid;grid-template-columns:minmax(420px,55%) minmax(520px,45%)}
+.hero-panel{display:flex;align-items:center;background:radial-gradient(circle at 25% 25%,#fffdf9 0,#fbf7ef 58%,#f6eee2 100%);padding:70px 6vw;border-right:1px solid #f0e7da}
+.hero-content{max-width:790px}
+.brand-line{display:flex;align-items:center;gap:13px}
+.logo-mark{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#0f58bc,#194892);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;box-shadow:0 8px 18px rgba(20,88,179,.16)}
+.logo-mark.small{width:45px;height:45px;border-radius:13px;font-size:17px}
+.brand-title{font-weight:800;font-size:18px;color:#0b2547}
+.brand-subtitle{font-size:13px;color:#6b7b91;margin-top:3px}
+.gov-chip{display:inline-flex;margin-top:52px;padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #e9ddcd;color:#6a7585;font-size:12px;font-weight:700;letter-spacing:.02em}
+.hero-panel h1{font-size:clamp(44px,4.2vw,68px);line-height:1.03;letter-spacing:-2px;color:#14365f;margin:18px 0 24px}
+.hero-panel h1 span{color:var(--orange)}
+.hero-copy{font-size:18px;line-height:1.7;color:#65728a;max-width:720px;margin:0}
+.hero-points{display:grid;gap:20px;margin-top:42px}
+.hero-point{display:flex;gap:14px;align-items:flex-start}
+.hero-point>span{width:11px;height:11px;background:var(--orange);border-radius:50%;margin-top:6px;flex:0 0 auto}
+.hero-point strong{display:block;font-size:16px;color:#132e52;margin-bottom:4px}
+.hero-point small{display:block;font-size:13px;color:#6f7f95;line-height:1.45}
+.auth-panel{display:flex;align-items:center;justify-content:center;padding:38px 4.5vw;background:#fff}
+.auth-card{width:min(100%,560px);padding:18px 0 8px}
+.auth-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.auth-heading p{margin:0 0 5px;color:#6b7d94;font-size:13px}
+.auth-heading h2{margin:0;color:#0c2344;font-family:Georgia,Times New Roman,serif;font-size:29px}
+.compact-switch{display:flex;width:max-content;border:1px solid #d7dde6;border-radius:999px;padding:4px;background:#fafbfc;margin-bottom:12px}
+.compact-tab{min-width:110px;padding:9px 18px;border:0;border-radius:999px;background:transparent;color:#5f6f83;font-weight:700;font-size:14px}
+.compact-tab.active{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(20,88,179,.15)}
+.action-pill{display:flex;gap:8px;align-items:center;width:min(100%,330px);padding:5px;border:1px solid #d2d7df;border-radius:999px;background:#fff8ef;margin:4px 0 24px}
+.action-tab{flex:1;border:1px solid transparent;background:transparent;border-radius:999px;padding:10px 20px;color:#1652a4;font-weight:700;font-size:15px}
+.action-tab.active{background:var(--orange);color:#153862;border-color:var(--orange);box-shadow:0 6px 15px rgba(255,161,38,.18)}
+.view-section{animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:.25;transform:translateY(3px)}to{opacity:1;transform:none}}
+.login-mode-row{display:flex;align-items:center;gap:38px;margin:0 0 23px;font-size:15px}
+.mode-option{display:flex;gap:9px;align-items:center;color:#3a3f49;font-weight:500;cursor:pointer}
+.mode-option input{width:17px;height:17px;accent-color:#1165d1;margin:0}
+.form-stack{display:grid;gap:16px}
+.field-group{display:grid;gap:8px}
+.field-group>label,.field-group label{font-size:14px;font-weight:650;color:#1c2330}
+.field-group label span{color:#d93e34}
+input,select{width:100%;height:50px;border:1px solid #bfc7d1;border-radius:9px;background:#fff;color:#172033;padding:0 15px;outline:none;transition:border .16s,box-shadow .16s}
+input::placeholder{color:#8792a2}
+input:focus,select:focus{border-color:#1561c2;box-shadow:0 0 0 3px rgba(21,97,194,.08)}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#737c89 50%),linear-gradient(135deg,#737c89 50%,transparent 50%);background-position:calc(100% - 20px) 48%,calc(100% - 14px) 48%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:45px}
+.password-field{position:relative}
+.password-field input{padding-right:64px}
+.show-password{position:absolute;right:11px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#1260ba;font-size:12px;font-weight:750;padding:5px}
+.forgot-row{display:flex;justify-content:space-between;margin:-5px 0 -6px}
+.link-button{border:0;background:transparent;color:#075fba;font-size:13px;font-weight:700;padding:0}
+.link-button.centered{display:block;margin:15px auto 0}
+.field-error{min-height:0;color:var(--danger);font-size:12px;margin-top:-2px}
+.captcha-box{position:relative;display:flex;align-items:center;min-height:94px;border:1px solid #ccd2da;border-radius:4px;background:#fafafa;padding:16px 18px;margin:4px 12px 2px;box-shadow:0 2px 5px rgba(0,0,0,.04);cursor:pointer}
+.captcha-box>input{position:absolute;opacity:0;pointer-events:none}
+.captcha-square{width:34px;height:34px;border:2px solid #4d5156;background:#fff;margin-right:15px;display:inline-flex;align-items:center;justify-content:center}
+.captcha-box>input:checked+.captcha-square{border-color:#1f61b9;background:#1f61b9}
+.captcha-box>input:checked+.captcha-square::after{content:'✓';color:#fff;font-size:23px;font-weight:800}
+.captcha-label{font-size:16px;color:#202124}
+.captcha-brand{margin-left:auto;display:grid;justify-items:center;color:#666;font-size:11px}
+.captcha-brand b{font-size:31px;line-height:1;color:#326cc6}
+.captcha-brand small{font-size:10px;margin-top:4px}
+.primary-button,.secondary-button{height:48px;border-radius:8px;font-weight:800;border:0;transition:transform .1s,filter .15s,box-shadow .15s}
+.primary-button{background:linear-gradient(180deg,#1b61bd,#1452aa);color:#fff;box-shadow:0 6px 14px rgba(20,82,170,.16)}
+.primary-button:hover{filter:brightness(.98);box-shadow:0 8px 18px rgba(20,82,170,.21)}
+.primary-button:active,.secondary-button:active{transform:translateY(1px)}
+.primary-button.compact{width:auto;min-width:118px;padding:0 20px}
+.secondary-button{border:1px solid #2e67b4;background:#fff;color:#1458b3}
+.hidden{display:none!important}
+.otp-box{display:grid;gap:16px;padding-top:2px}
+.stepper{display:flex;align-items:flex-start;margin:0 0 28px;padding:0 3px}
+.step{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:65px;color:#6f7784;font-size:12px}
+.step span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#8ea9d4;color:#fff;font-weight:800;font-size:15px}
+.step small{font-size:12px;white-space:nowrap}
+.step.active{color:#104c9f;font-weight:700}
+.step.active span{background:var(--orange)}
+.step-line{flex:1;height:4px;background:#1d4fa2;margin:18px 10px 0;border-radius:3px;opacity:.95}
+.register-step{display:grid;gap:20px}
+.radio-cards{display:flex;gap:12px}
+.radio-cards label{display:flex;align-items:center;gap:10px;min-width:135px;height:48px;padding:0 16px;border:1px solid #c7ccd2;border-radius:6px;font-weight:500;cursor:pointer}
+.radio-cards input{position:absolute;opacity:0;width:0;height:0}
+.radio-cards i{width:24px;height:24px;border:2px solid #80868d;border-radius:50%;display:grid;place-items:center}
+.radio-cards input:checked+i{border-color:#175eb5}
+.radio-cards input:checked+i::after{content:'';width:12px;height:12px;border-radius:50%;background:#175eb5}
+.help-row{display:flex;justify-content:space-between;align-items:center;margin-top:-9px;color:#606b7a;font-size:12px}
+.identity-card{border:1px dashed #aeb5bf;border-radius:12px;padding:20px;margin-top:4px;background:#fff}
+.identity-card p{font-size:12px;line-height:1.5;color:#5d6a7c;margin:12px 0 0}
+.identity-card-footer{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-top:17px}
+.muted-help{font-size:12px;line-height:1.45;color:#5d6978;max-width:270px}
+.otp-stage{text-align:center;border:1px solid #e0e5ec;border-radius:14px;padding:28px 26px 26px;background:#fbfcfe}
+.otp-stage h3{margin:10px 0 6px;color:#17355d;font-size:20px}
+.otp-stage>p{margin:0 0 22px;color:#677386;font-size:13px;line-height:1.45}
+.otp-stage .field-group{text-align:left;margin-bottom:16px}
+.otp-icon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;margin:0 auto;background:#eaf5ef;color:#16804f;font-weight:900;font-size:22px}
+.otp-icon.lock{background:#eef4fd;color:#1659ac;font-size:14px}
+.password-rules{text-align:left;font-size:12px;color:#687486;margin:-4px 0 17px}
+.message-box{margin-top:16px;border:1px solid #c8d9f1;border-radius:9px;padding:11px 13px;background:#f0f6ff;color:#184b89;font-size:12.5px;line-height:1.45}
+.message-box.error{border-color:#f0c0bb;background:#fff3f2;color:#a83b33}
+.message-box.success{border-color:#b9dfcc;background:#eef9f3;color:#166a44}
+.security-note{text-align:center;color:#8b94a3;font-size:10.5px;margin:16px 0 0}
+@media(max-width:1050px){.page-shell{grid-template-columns:1fr}.hero-panel{min-height:auto;padding:45px 7vw}.hero-content{max-width:900px}.gov-chip{margin-top:32px}.hero-panel h1{font-size:50px}.auth-panel{padding:42px 24px 70px}.auth-card{max-width:590px}}
+@media(max-width:600px){.hero-panel{padding:30px 22px}.hero-panel h1{font-size:38px;letter-spacing:-1px}.hero-copy{font-size:15px}.hero-points{display:none}.auth-panel{padding:28px 18px 50px}.auth-heading h2{font-size:26px}.compact-tab{min-width:92px;padding:8px 14px}.action-pill{width:100%;max-width:330px}.login-mode-row{gap:18px;justify-content:space-between;font-size:13px}.radio-cards{gap:8px}.radio-cards label{min-width:0;flex:1;padding:0 12px}.captcha-box{margin-left:0;margin-right:0}.identity-card-footer{align-items:stretch;flex-direction:column}.primary-button.compact{width:100%}.step small{font-size:11px}.step-line{margin-left:5px;margin-right:5px}}
+
+/* V4 refinements: simpler login and iGOT-style single-page registration */
+.forgot-row.after-password{margin:-7px 0 0}
+.recovery-panel{border:1px solid #dde3eb;border-radius:12px;background:#fbfcfe;padding:20px;margin-top:2px}
+.recovery-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}
+.recovery-head h3{margin:0 0 5px;color:#17355d;font-size:20px}
+.recovery-head p{margin:0;color:#6b7788;font-size:12.5px}
+.register-form{display:grid;gap:20px}
+.registration-inline-stage{display:grid;gap:15px;border:1px solid #dce3ec;border-radius:12px;background:#fbfcfe;padding:20px}
+.registration-inline-stage .stage-title{font-size:17px;font-weight:800;color:#17355d}
+.registration-inline-stage>p{margin:-7px 0 2px;color:#667386;font-size:12.5px;line-height:1.5}
+.inline-actions{display:flex;gap:12px;justify-content:flex-end}
+.inline-actions .primary-button,.inline-actions .secondary-button{padding:0 20px;min-width:130px}
+@media(max-width:600px){.inline-actions{flex-direction:column}.inline-actions .primary-button,.inline-actions .secondary-button{width:100%}.recovery-head{flex-direction:column;gap:8px}}
+
+</style>
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero-panel">
+      <div class="hero-content">
+        <div class="brand-line">
+          <div class="logo-mark">SI</div>
+          <div>
+            <div class="brand-title">Skill Intelligence Platform</div>
+            <div class="brand-subtitle">Official Statistics • Karmayogi-ready</div>
+          </div>
+        </div>
+
+        <div class="gov-chip">Government Learning Portal</div>
+        <h1>Build a <span>future-ready</span><br />workforce.</h1>
+        <p class="hero-copy">
+          Secure access for officials and administrators to competency assessment,
+          learning recommendations and progress tracking.
+        </p>
+
+        <div class="hero-points">
+          <div class="hero-point"><span></span><div><strong>Verified access</strong><small>OTP-based identity verification before registration.</small></div></div>
+          <div class="hero-point"><span></span><div><strong>Role-based sign in</strong><small>Separate employee and admin access paths.</small></div></div>
+          <div class="hero-point"><span></span><div><strong>Backend-ready</strong><small>Frontend flow designed for API and database integration.</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-card">
+        <div class="auth-heading">
+          <div>
+            <p>Government Learning Portal</p>
+            <h2 id="pageTitle">Sign in</h2>
+          </div>
+          <div class="logo-mark small">SI</div>
+        </div>
+
+        <div class="compact-switch role-switch" aria-label="Choose user type">
+          <button type="button" class="compact-tab active" data-role="employee">Employee</button>
+          <button type="button" class="compact-tab" data-role="admin">Admin</button>
+        </div>
+
+        <div class="action-pill" aria-label="Login or register">
+          <button type="button" class="action-tab active" data-view="login">Log in</button>
+          <button type="button" class="action-tab" data-view="register">Register</button>
+        </div>
+
+        <div class="message-box" style="margin-top:0;margin-bottom:18px">
+          <b>Prototype access:</b> choose a role and use any valid email plus any password. You can also register with your own details; all credentials remain only in this browser until the backend is connected.
+        </div>
+
+        <section id="loginView" class="view-section">
+          <form id="passwordLoginForm" class="form-stack" novalidate>
+            <div class="field-group">
+              <label for="loginIdentity">Email <span>*</span></label>
+              <input id="loginIdentity" type="email" autocomplete="username" placeholder="Enter your registered email" />
+              <div class="field-error" id="loginIdentityError"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="loginPassword">Password <span>*</span></label>
+              <div class="password-field">
+                <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" />
+                <button type="button" class="show-password" data-target="loginPassword">Show</button>
+              </div>
+              <div class="field-error" id="loginPasswordError"></div>
+            </div>
+
+            <div class="forgot-row after-password">
+              <span></span>
+              <button type="button" class="link-button" id="forgotPasswordBtn">Forgot Password?</button>
+            </div>
+
+            <label class="captcha-box">
+              <input id="captchaCheck" type="checkbox" />
+              <span class="captcha-square"></span>
+              <span class="captcha-label">I'm not a robot</span>
+              <span class="captcha-brand"><b>↻</b><small>reCAPTCHA</small></span>
+            </label>
+
+            <button class="primary-button" type="submit">Login</button>
+          </form>
+
+          <div id="forgotPasswordPanel" class="recovery-panel hidden">
+            <div class="recovery-head">
+              <div>
+                <h3>Reset password</h3>
+                <p>Verify your registered email with OTP.</p>
+              </div>
+              <button type="button" class="link-button" id="backToLoginBtn">Back to login</button>
+            </div>
+
+            <div class="form-stack">
+              <div class="field-group">
+                <label for="forgotEmail">Email <span>*</span></label>
+                <input id="forgotEmail" type="email" placeholder="Enter your registered email" />
+                <div class="field-error" id="forgotEmailError"></div>
+              </div>
+              <button class="secondary-button" type="button" id="sendForgotOtpBtn">Send OTP</button>
+
+              <div id="forgotOtpBlock" class="hidden form-stack">
+                <div class="field-group">
+                  <label for="forgotOtp">Enter OTP <span>*</span></label>
+                  <input id="forgotOtp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" />
+                </div>
+                <div class="field-group">
+                  <label for="newPassword">New Password <span>*</span></label>
+                  <div class="password-field">
+                    <input id="newPassword" type="password" placeholder="Minimum 8 characters" />
+                    <button type="button" class="show-password" data-target="newPassword">Show</button>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="confirmNewPassword">Confirm Password <span>*</span></label>
+                  <div class="password-field">
+                    <input id="confirmNewPassword" type="password" placeholder="Re-enter new password" />
+                    <button type="button" class="show-password" data-target="confirmNewPassword">Show</button>
+                  </div>
+                </div>
+                <button class="primary-button" type="button" id="resetPasswordBtn">Verify OTP & Reset Password</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="registerView" class="view-section hidden">
+          <form id="registerForm" class="register-form" novalidate>
+            <div class="field-group">
+              <label>Center/State <span>*</span></label>
+              <div class="radio-cards">
+                <label><input type="radio" name="jurisdiction" value="Center" checked /><i></i>Center</label>
+                <label><input type="radio" name="jurisdiction" value="State" /><i></i>State</label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="ministrySelect" id="ministryLabel">Ministry/Department <span>*</span></label>
+              <select id="ministrySelect">
+                <option value="">Select ministry</option>
+              </select>
+            </div>
+
+            <div class="field-group">
+              <label for="organisationSelect">Organisation <span>*</span></label>
+              <select id="organisationSelect">
+                <option value="">Select organisation</option>
+              </select>
+            </div>
+
+            <div class="help-row">
+              <span>Not found yet?</span>
+              <button type="button" class="link-button" id="requestHelpBtn">Request for help</button>
+            </div>
+
+            <div class="field-group">
+              <label for="designationSelect">Designation <span>*</span></label>
+              <select id="designationSelect">
+                <option value="">Select designation</option>
+              </select>
+            </div>
+
+            <div class="identity-card">
+              <div class="field-group">
+                <label for="registerIdentity">Email <span>*</span></label>
+                <input id="registerIdentity" type="email" placeholder="Enter your government email address" />
+                <div class="field-error" id="registerIdentityError"></div>
+              </div>
+              <p id="registrationIdentityNote">Use an official email address that you can verify by OTP.</p>
+              <div class="identity-card-footer">
+                <span class="muted-help">Not able to proceed? Get registered through your MDO.</span>
+                <button class="primary-button compact" type="button" id="sendRegisterOtpBtn">Send OTP</button>
+              </div>
+            </div>
+
+            <div id="registerVerificationBlock" class="registration-inline-stage hidden">
+              <div class="stage-title">Verify email</div>
+              <p id="otpDestinationText">We sent a 6-digit OTP to your email.</p>
+              <div class="field-group">
+                <label for="registerOtp">Enter OTP <span>*</span></label>
+                <input id="registerOtp" inputmode="numeric" maxlength="6" placeholder="6-digit OTP" />
+              </div>
+              <div class="inline-actions">
+                <button class="secondary-button" type="button" id="resendRegisterOtpBtn">Resend OTP</button>
+                <button class="primary-button" type="button" id="verifyRegisterOtpBtn">Verify OTP</button>
+              </div>
+            </div>
+
+            <div id="registerPasswordBlock" class="registration-inline-stage hidden">
+              <div class="stage-title">Create password</div>
+              <p>Create the password you will use for future login.</p>
+
+              <div class="field-group">
+                <label for="registerPassword">Create Password <span>*</span></label>
+                <div class="password-field">
+                  <input id="registerPassword" type="password" placeholder="Minimum 8 characters" />
+                  <button type="button" class="show-password" data-target="registerPassword">Show</button>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label for="confirmPassword">Confirm Password <span>*</span></label>
+                <div class="password-field">
+                  <input id="confirmPassword" type="password" placeholder="Re-enter password" />
+                  <button type="button" class="show-password" data-target="confirmPassword">Show</button>
+                </div>
+              </div>
+
+              <div class="password-rules">At least 8 characters, including uppercase, lowercase and a number.</div>
+              <button class="primary-button" type="submit">Complete Registration</button>
+            </div>
+          </form>
+        </section>
+
+        <div id="messageBox" class="message-box hidden" role="status"></div>
+        <p class="security-note">Secure role-based access • Email OTP verification • Demo frontend</p>
+      </div>
+    </section>
+  </main>
+  <script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const roleButtons = [...document.querySelectorAll('[data-role]')];
+  const viewButtons = [...document.querySelectorAll('[data-view]')];
+  const showPasswordButtons = [...document.querySelectorAll('.show-password')];
+
+  const state = {
+    role: 'employee',
+    view: 'login',
+    registerOtp: null,
+    pendingIdentity: null,
+    verifiedRegistration: false,
+    forgotOtp: null,
+    forgotIdentity: null,
+  };
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const PASSWORD_RE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+  const centerMinistries = [
+    'Ministry of Statistics & Programme Implementation',
+    'Department of Personnel & Training',
+    'Ministry of Electronics & Information Technology'
+  ];
+  const stateDepartments = [
+    'Department of Economics & Statistics',
+    'Planning Department',
+    'Administrative Reforms Department'
+  ];
+  const orgMap = {
+    'Ministry of Statistics & Programme Implementation': ['National Statistical Office (NSO)', 'NSSO / Field Operations Division', 'MoSPI Headquarters'],
+    'Department of Personnel & Training': ['Capacity Building Commission', 'DoPT Headquarters'],
+    'Ministry of Electronics & Information Technology': ['Digital India Corporation', 'MeitY Headquarters'],
+    'Department of Economics & Statistics': ['Directorate of Economics & Statistics', 'State Statistical Bureau'],
+    'Planning Department': ['State Planning Board', 'District Planning Office'],
+    'Administrative Reforms Department': ['State Administrative Training Institute', 'Administrative Reforms Cell']
+  };
+  const employeeDesignations = ['Junior Statistical Officer', 'Statistical Officer', 'Data Analyst', 'Research Officer', 'Section Officer'];
+  const adminDesignations = ['Training Coordinator', 'Department Administrator', 'HR / Learning Administrator', 'Nodal Officer', 'Programme Administrator'];
+
+  function normalizeIdentity(value) {
+    return value.trim().toLowerCase();
+  }
+
+  function storageKey(role, identity) {
+    return `sip_auth_${role}_${normalizeIdentity(identity)}`;
+  }
+
+  function generateOtp() {
+    return String(Math.floor(100000 + Math.random() * 900000));
+  }
+
+  function roleName() {
+    return state.role === 'admin' ? 'Admin' : 'Employee';
+  }
+
+  function showMessage(text, type = 'info') {
+    const box = $('messageBox');
+    box.className = `message-box ${type}`;
+    box.textContent = text;
+  }
+
+  function clearMessage() {
+    $('messageBox').className = 'message-box hidden';
+    $('messageBox').textContent = '';
+  }
+
+  function setFieldError(id, text = '') {
+    const el = $(id);
+    if (el) el.textContent = text;
+  }
+
+  function clearErrors() {
+    ['loginIdentityError', 'loginPasswordError', 'registerIdentityError', 'forgotEmailError'].forEach(id => setFieldError(id, ''));
+  }
+
+  function validateEmailForRole(identity, { registration = false } = {}) {
+    const email = identity.trim();
+    if (!email) return 'Email is required.';
+    if (!EMAIL_RE.test(email)) return 'Enter a valid email address.';
+    return null;
+  }
+
+  function setRole(role) {
+    state.role = role;
+    roleButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.role === role));
+    updateRoleSpecificUI();
+    resetRegistration();
+    closeForgotPassword();
+    clearMessage();
+  }
+
+  function setView(view) {
+    state.view = view;
+    viewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+    $('loginView').classList.toggle('hidden', view !== 'login');
+    $('registerView').classList.toggle('hidden', view !== 'register');
+    $('pageTitle').textContent = view === 'login' ? 'Sign in' : `${roleName()} registration`;
+    if (view === 'register') resetRegistration();
+    if (view === 'login') closeForgotPassword();
+    clearErrors();
+    clearMessage();
+  }
+
+  function updateRoleSpecificUI() {
+    const admin = state.role === 'admin';
+    $('registrationIdentityNote').textContent = admin
+      ? 'Demo mode: use any valid email address. OTP verification is simulated on this page.'
+      : 'Demo mode: use any valid email address. OTP verification is simulated on this page.';
+    $('registerIdentity').placeholder = admin
+      ? 'Enter your email address'
+      : 'Enter your email address';
+    populateDesignation();
+  }
+
+  function fillSelect(select, placeholder, values) {
+    select.innerHTML = `<option value="">${placeholder}</option>` + values.map(v => `<option value="${v}">${v}</option>`).join('');
+  }
+
+  function populateMinistries() {
+    const jurisdiction = document.querySelector('input[name="jurisdiction"]:checked')?.value || 'Center';
+    const isState = jurisdiction === 'State';
+    $('ministryLabel').innerHTML = `${isState ? 'Department' : 'Ministry/Department'} <span>*</span>`;
+    fillSelect($('ministrySelect'), isState ? 'Select department' : 'Select ministry', isState ? stateDepartments : centerMinistries);
+    fillSelect($('organisationSelect'), 'Select organisation', []);
+  }
+
+  function populateOrganisations() {
+    fillSelect($('organisationSelect'), 'Select organisation', orgMap[$('ministrySelect').value] || []);
+  }
+
+  function populateDesignation() {
+    fillSelect($('designationSelect'), 'Select designation', state.role === 'admin' ? adminDesignations : employeeDesignations);
+  }
+
+  function resetRegistration() {
+    $('registerForm').reset();
+    const center = document.querySelector('input[name="jurisdiction"][value="Center"]');
+    if (center) center.checked = true;
+    populateMinistries();
+    populateDesignation();
+    state.registerOtp = null;
+    state.pendingIdentity = null;
+    state.verifiedRegistration = false;
+    $('registerVerificationBlock').classList.add('hidden');
+    $('registerPasswordBlock').classList.add('hidden');
+    clearErrors();
+  }
+
+  function registrationProfileError() {
+    // Profile fields are optional in the demo. The real API can enforce
+    // organisation and designation rules after the database is connected.
+    return null;
+  }
+
+  function openForgotPassword() {
+    clearErrors();
+    clearMessage();
+    $('passwordLoginForm').classList.add('hidden');
+    $('forgotPasswordPanel').classList.remove('hidden');
+    $('forgotEmail').value = $('loginIdentity').value.trim();
+    $('forgotOtpBlock').classList.add('hidden');
+    $('forgotOtp').value = '';
+    $('newPassword').value = '';
+    $('confirmNewPassword').value = '';
+    state.forgotOtp = null;
+    state.forgotIdentity = null;
+  }
+
+  function closeForgotPassword() {
+    if (!$('passwordLoginForm') || !$('forgotPasswordPanel')) return;
+    $('passwordLoginForm').classList.remove('hidden');
+    $('forgotPasswordPanel').classList.add('hidden');
+    $('forgotOtpBlock').classList.add('hidden');
+    state.forgotOtp = null;
+    state.forgotIdentity = null;
+  }
+
+  roleButtons.forEach(btn => btn.addEventListener('click', () => setRole(btn.dataset.role)));
+  viewButtons.forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.view)));
+
+  showPasswordButtons.forEach(btn => btn.addEventListener('click', () => {
+    const field = $(btn.dataset.target);
+    const show = field.type === 'password';
+    field.type = show ? 'text' : 'password';
+    btn.textContent = show ? 'Hide' : 'Show';
+  }));
+
+  document.querySelectorAll('input[name="jurisdiction"]').forEach(r => r.addEventListener('change', populateMinistries));
+  $('ministrySelect').addEventListener('change', populateOrganisations);
+
+  $('requestHelpBtn').addEventListener('click', () => {
+    showMessage('Request noted for the demo. In production this would open the MDO / Nodal Officer support workflow.', 'info');
+  });
+
+  $('forgotPasswordBtn').addEventListener('click', openForgotPassword);
+  $('backToLoginBtn').addEventListener('click', closeForgotPassword);
+
+  $('passwordLoginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearErrors();
+    clearMessage();
+
+    const identity = $('loginIdentity').value;
+    const password = $('loginPassword').value;
+    const identityError = validateEmailForRole(identity);
+
+    if (identityError) {
+      setFieldError('loginIdentityError', identityError);
+      return;
+    }
+    if (!password) {
+      setFieldError('loginPasswordError', 'Password is required.');
+      return;
+    }
+    if (!$('captchaCheck').checked) {
+      showMessage('Please complete the “I’m not a robot” check.', 'error');
+      return;
+    }
+
+    const saved = localStorage.getItem(storageKey(state.role, identity));
+    const user = saved
+      ? JSON.parse(saved)
+      : { role: state.role, identity: normalizeIdentity(identity), password, demo: true };
+    if (saved && user.password !== password) {
+      showMessage('Incorrect password. Use the password created during registration or use Forgot Password.', 'error');
+      return;
+    }
+
+    // Temporary frontend-only session adapter. Replace this block with the
+    // backend login response and token handling when the API is available.
+    localStorage.setItem('sip_session', JSON.stringify({
+      role: state.role,
+      identity: user.identity,
+      signedInAt: new Date().toISOString()
+    }));
+    if (state.role === 'admin') localStorage.setItem('portalUser', user.identity);
+    showMessage(`${roleName()} login successful. Opening your dashboard…`, 'success');
+    window.setTimeout(() => {
+      window.location.href = state.role === 'admin' ? 'admin/dashboard.html' : 'employee/index.html';
+    }, 350);
+  });
+
+  $('sendForgotOtpBtn').addEventListener('click', () => {
+    clearErrors();
+    clearMessage();
+    const identity = $('forgotEmail').value;
+    const error = validateEmailForRole(identity);
+
+    if (error) {
+      setFieldError('forgotEmailError', error);
+      return;
+    }
+    if (!localStorage.getItem(storageKey(state.role, identity))) {
+      showMessage(`No registered ${roleName().toLowerCase()} account found for this email.`, 'error');
+      return;
+    }
+
+    state.forgotIdentity = normalizeIdentity(identity);
+    state.forgotOtp = generateOtp();
+    $('forgotOtpBlock').classList.remove('hidden');
+    showMessage(`Demo OTP sent to ${state.forgotIdentity}: ${state.forgotOtp}`, 'info');
+  });
+
+  $('resetPasswordBtn').addEventListener('click', () => {
+    clearMessage();
+    if (!state.forgotOtp || !state.forgotIdentity) {
+      showMessage('Please send OTP first.', 'error');
+      return;
+    }
+
+    const otp = $('forgotOtp').value.trim();
+    const password = $('newPassword').value;
+    const confirm = $('confirmNewPassword').value;
+
+    if (otp !== state.forgotOtp) {
+      showMessage('Incorrect OTP. Please try again.', 'error');
+      return;
+    }
+    if (!PASSWORD_RE.test(password)) {
+      showMessage('Password must be at least 8 characters and contain uppercase, lowercase and a number.', 'error');
+      return;
+    }
+    if (password !== confirm) {
+      showMessage('Passwords do not match.', 'error');
+      return;
+    }
+
+    const key = storageKey(state.role, state.forgotIdentity);
+    const saved = localStorage.getItem(key);
+    if (!saved) {
+      showMessage('Registered account not found.', 'error');
+      return;
+    }
+
+    const user = JSON.parse(saved);
+    user.password = password;
+    user.passwordUpdatedAt = new Date().toISOString();
+    localStorage.setItem(key, JSON.stringify(user));
+
+    $('loginIdentity').value = state.forgotIdentity;
+    closeForgotPassword();
+    showMessage('Password reset successful. You can now log in with the new password.', 'success');
+  });
+
+  $('sendRegisterOtpBtn').addEventListener('click', () => {
+    clearErrors();
+    clearMessage();
+
+    const profileError = registrationProfileError();
+    if (profileError) {
+      showMessage(profileError, 'error');
+      return;
+    }
+
+    const identity = $('registerIdentity').value;
+    const identityError = validateEmailForRole(identity, { registration: true });
+    if (identityError) {
+      setFieldError('registerIdentityError', identityError);
+      return;
+    }
+
+    if (localStorage.getItem(storageKey(state.role, identity))) {
+      showMessage(`This email is already registered as ${roleName().toLowerCase()}. Please log in.`, 'error');
+      return;
+    }
+
+    state.pendingIdentity = normalizeIdentity(identity);
+    state.registerOtp = generateOtp();
+    state.verifiedRegistration = false;
+    $('otpDestinationText').textContent = `We sent a 6-digit OTP to ${state.pendingIdentity}.`;
+    $('registerVerificationBlock').classList.remove('hidden');
+    $('registerPasswordBlock').classList.add('hidden');
+    showMessage(`Demo OTP: ${state.registerOtp}`, 'info');
+    $('registerVerificationBlock').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  $('resendRegisterOtpBtn').addEventListener('click', () => {
+    if (!state.pendingIdentity) {
+      showMessage('Enter your registration details and send OTP first.', 'error');
+      return;
+    }
+    state.registerOtp = generateOtp();
+    showMessage(`New demo OTP sent to ${state.pendingIdentity}: ${state.registerOtp}`, 'info');
+  });
+
+  $('verifyRegisterOtpBtn').addEventListener('click', () => {
+    const otp = $('registerOtp').value.trim();
+    if (!state.registerOtp) {
+      showMessage('Please send OTP first.', 'error');
+      return;
+    }
+    if (otp !== state.registerOtp) {
+      showMessage('Incorrect OTP. Please try again.', 'error');
+      return;
+    }
+
+    state.verifiedRegistration = true;
+    $('registerPasswordBlock').classList.remove('hidden');
+    showMessage('Email verified. Create your password to finish registration.', 'success');
+    $('registerPasswordBlock').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  $('registerForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!state.verifiedRegistration || !state.pendingIdentity) {
+      showMessage('Verify your email by OTP first.', 'error');
+      return;
+    }
+
+    const password = $('registerPassword').value;
+    const confirm = $('confirmPassword').value;
+
+    if (!PASSWORD_RE.test(password)) {
+      showMessage('Password must be at least 8 characters and contain uppercase, lowercase and a number.', 'error');
+      return;
+    }
+    if (password !== confirm) {
+      showMessage('Passwords do not match.', 'error');
+      return;
+    }
+
+    const user = {
+      role: state.role,
+      identity: state.pendingIdentity,
+      jurisdiction: document.querySelector('input[name="jurisdiction"]:checked')?.value || 'Center',
+      ministry: $('ministrySelect').value,
+      organisation: $('organisationSelect').value,
+      designation: $('designationSelect').value,
+      password,
+      verified: true,
+      createdAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(storageKey(state.role, state.pendingIdentity), JSON.stringify(user));
+
+    const identity = state.pendingIdentity;
+    setView('login');
+    $('loginIdentity').value = identity;
+    showMessage(`${roleName()} registration successful. Sign in using the same registered email and password.`, 'success');
+  });
+
+  updateRoleSpecificUI();
+  populateMinistries();
+  populateDesignation();
+  setView('login');
+})();
+
+</script>
+</body>
+</html>
